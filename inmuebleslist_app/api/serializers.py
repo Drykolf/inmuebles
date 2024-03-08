@@ -4,7 +4,8 @@ from inmuebleslist_app.models import Comentario, Empresa, Edificacion
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentario
-        fields = '__all__'
+        exclude = ['edificacion']
+        #fields = '__all__'
 
 class EdificacionSerializer(serializers.ModelSerializer):
     comentarios = ComentarioSerializer(many=True, read_only=True)

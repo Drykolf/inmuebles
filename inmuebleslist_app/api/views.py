@@ -2,8 +2,9 @@ from inmuebleslist_app.models import Comentario, Empresa, Edificacion
 from inmuebleslist_app.api.serializers import ComentarioSerializer, EmpresaSerializer, EdificacionSerializer
 from rest_framework.response import Response
 #from rest_framework.decorators import api_view
-from rest_framework import status, generics, mixins
+from rest_framework import status, generics, mixins, viewsets
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 class ComentarioCreate(generics.CreateAPIView):
     serializer_class = ComentarioSerializer
@@ -40,6 +41,19 @@ class ComentarioDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
     '''
+    
+class EmpresaVS(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Empresa.objects.all()
+        serializer = EmpresaSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk= None):
+        queryset = Empresa.objects.all()
+        edificacionList = get_object_or_404(queryset, pk=pk)
+        serializer = EmpresaSerializer(edificacionList)
+        return Response(serializer.data)
+
 class EmpresaAV(APIView):
     def get(self, request):
         empresas = Empresa.objects.all()

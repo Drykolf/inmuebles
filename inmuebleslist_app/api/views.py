@@ -29,8 +29,8 @@ class ComentarioCreate(generics.CreateAPIView):
         serializer.save(edificacion=inmueble, comentario_user=user)
 
 class ComentarioList(generics.ListCreateAPIView):
-    #queryset = Comentario.objects.all()
     serializer_class = ComentarioSerializer
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Comentario.objects.filter(edificacion=pk)

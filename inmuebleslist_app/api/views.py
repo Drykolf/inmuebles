@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
-from inmuebleslist_app.api.permissions import AdminOrReadOnly
+from inmuebleslist_app.api.permissions import AdminOrReadOnly, ComentarioUserOrReadOnly
 
 class ComentarioCreate(generics.CreateAPIView):
     serializer_class = ComentarioSerializer
@@ -32,6 +32,7 @@ class ComentarioList(generics.ListCreateAPIView):
 class ComentarioDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comentario.objects.all()
     serializer_class = ComentarioSerializer
+    permission_classes = [ComentarioUserOrReadOnly]
 
 class EmpresaVS(viewsets.ModelViewSet):
     permission_classes = [AdminOrReadOnly]

@@ -133,7 +133,7 @@ REST_FRAMEWORK = {
     # 'DEFAUTL_AUTHENTICATION_CLASSES': [
     #     'rest_framework.authentication.BasicAuthentication',
     # ]
-    'DEFAUTL_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ]
 }

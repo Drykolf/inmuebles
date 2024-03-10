@@ -6,6 +6,12 @@ from rest_framework.authtoken.models import Token
 from user_app import models
 
 @api_view(['POST',])
+def logout_view(request):
+    if request.method == 'POST':
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+    
+@api_view(['POST',])
 def registration_view(request):
     if request.method == 'POST':
         serializer = RegistrationSerializer(data=request.data)

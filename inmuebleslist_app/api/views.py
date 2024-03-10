@@ -7,10 +7,11 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
-from inmuebleslist_app.api.permissions import AdminOrReadOnly, ComentarioUserOrReadOnly
+from inmuebleslist_app.api.permissions import IsAdminOrReadOnly, IsComentarioUserOrReadOnly
 
 class ComentarioCreate(generics.CreateAPIView):
     serializer_class = ComentarioSerializer
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return Comentario.objects.all()
     def perform_create(self, serializer):
@@ -38,10 +39,10 @@ class ComentarioList(generics.ListCreateAPIView):
 class ComentarioDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comentario.objects.all()
     serializer_class = ComentarioSerializer
-    permission_classes = [ComentarioUserOrReadOnly]
+    permission_classes = [IsComentarioUserOrReadOnly]
 
 class EmpresaVS(viewsets.ModelViewSet):
-    permission_classes = [AdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
     
@@ -86,6 +87,7 @@ class EmpresaDetalleAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class EdificacionListAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
     def get(self, request):
         inmuebles = Edificacion.objects.all()
         serializer = EdificacionSerializer(inmuebles, many=True)
@@ -99,6 +101,7 @@ class EdificacionListAV(APIView):
         else: return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class EdificacionDetalleAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
     def get(self, request, pk):
         try:
             inmueble = Edificacion.objects.get(pk=pk)

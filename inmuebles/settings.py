@@ -141,6 +141,9 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES':{
         'anon': '5/day',
         'user': '10/day',
+        'comentario-create' : '2/day',
+        'comentario-list' : '8/day',
+        'comentario-detail' : '3/day',
     }
 }
 

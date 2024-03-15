@@ -2,7 +2,7 @@ from inmuebleslist_app.models import Comentario, Empresa, Edificacion
 from inmuebleslist_app.api.serializers import ComentarioSerializer, EmpresaSerializer, EdificacionSerializer
 from rest_framework.response import Response
 #from rest_framework.decorators import api_view
-from rest_framework import status, generics, mixins, viewsets
+from rest_framework import status, generics, mixins, viewsets, filters
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from inmuebleslist_app.api.permissions import IsAdminOrReadOnly, IsComentarioUserOrReadOnly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from inmuebleslist_app.api.throttling import ComentarioCreateThrottle, ComentarioListThrottle
+from django_filters.rest_framework import DjangoFilterBackend
 
 class UsuarioComentario(generics.ListAPIView):
     serializer_class = ComentarioSerializer
@@ -45,6 +46,8 @@ class ComentarioList(generics.ListCreateAPIView):
     serializer_class = ComentarioSerializer
     #permission_classes = [IsAuthenticated]
     throttle_classes = [ComentarioListThrottle, AnonRateThrottle]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['comentario_user__username', 'active']
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Comentario.objects.filter(edificacion=pk)
@@ -61,6 +64,12 @@ class EmpresaVS(viewsets.ModelViewSet):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
     
+class EdificacionList(generics.ListAPIView):
+    queryset = Edificacion.objects.all()
+    serializer_class = EdificacionSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['direccion','empresa__nombre']
+
 class EmpresaAV(APIView):
     def get(self, request):
         empresas = Empresa.objects.all()

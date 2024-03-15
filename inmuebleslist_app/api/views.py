@@ -1,3 +1,4 @@
+from inmuebleslist_app.api.pagination import EdificacionPagination
 from inmuebleslist_app.models import Comentario, Empresa, Edificacion
 from inmuebleslist_app.api.serializers import ComentarioSerializer, EmpresaSerializer, EdificacionSerializer
 from rest_framework.response import Response
@@ -69,6 +70,7 @@ class EdificacionList(generics.ListAPIView):
     serializer_class = EdificacionSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['direccion','empresa__nombre']
+    pagination_class = EdificacionPagination
 
 class EmpresaAV(APIView):
     def get(self, request):

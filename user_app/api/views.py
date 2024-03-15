@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib import auth
+from django.contrib import auth
 
 @api_view(['POST',])
 def logout_view(request):
@@ -22,6 +23,9 @@ def registration_view(request):
             data['response'] = 'El registro del usuario fue exitoso'
             data['username'] = account.username
             data['email'] = account.email
+            data['first_name'] = account.first_name
+            data['last_name'] = account.last_name
+            data['phone_number'] = account.phone_number
             data['first_name'] = account.first_name
             data['last_name'] = account.last_name
             data['phone_number'] = account.phone_number

@@ -27,8 +27,8 @@ SECRET_KEY = 'django-insecure-$h)(5!q4*1k3%9de^f2e6o_80s)p(73oy43+p@okf_t&dao8nu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
-#CSRF_TRUSTED_ORIGINS = ['https://']
+ALLOWED_HOSTS = ['inmuebleswebapp-dev-szrt.3.us-1.fl0.io']
+CSRF_TRUSTED_ORIGINS = ['https://inmuebleswebapp-dev-szrt.3.us-1.fl0.io']
 
 # Application definition
 
@@ -160,7 +160,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
 }
 
-#try:
-#    from .local_settings import DATABASES, DEBUG
-#except ImportError as e:
-#    print("Error: ", e.msg)
+try:
+    from .local_settings import DATABASES, DEBUG
+except ImportError as e:
+    print("Error: ", e.msg)
